@@ -12,7 +12,7 @@ Once you select the Docker Desktop for your operating system the installation pr
 ## `Linux`
 They have both .DEB and .RPM packages available.  If you can't get these to work for some reason most repos have packages available for the engine and auxillary components.
 
-When finished installing. Check the installation with the command 
+When finished installing. Check the installation with the command
 ```console
 $ docker --help
 ```
@@ -25,7 +25,7 @@ Depending on the distro you are using will determine which python3 package to in
 | Distro | Package Name |
 |--------|--------------|
 | Ubuntu | python3 |
-| RHEL   | rh-python36 * (need to use `scl enable rh-python36 bash`)| 
+| RHEL   | rh-python36 * (need to use `scl enable rh-python36 bash`)|
 | Centos | python3 |
 | Arch   | python |
 
@@ -84,7 +84,7 @@ C:\<PathToDUNE>\DUNE$ .\bootstrap.bat
 *** M1 Users ***
 You will need to do a `git checkout arm64` from this repo.
 
-When finished installing. Check the installation with the command. 
+When finished installing. Check the installation with the command.
 ```console
 $ docker --help
 ```
@@ -238,7 +238,7 @@ The core concept of this utility is to abstract over `nodeos`, `cleos`, `CDT`, e
 As such some of the commands might seem restrictive.  Please take note that if you find any of the commands to be too
 restrictive then you can use the command `--` followed by whatever normal `cleos`, `nodeos`, `CDT` and `OS` commands that you need.
 
-When you run any command with DUNE if a container has not been created yet it will automatically create one for you.  The command of 
+When you run any command with DUNE if a container has not been created yet it will automatically create one for you.  The command of
 `start-container` shouldn't necessarily be needed during normal operation.
 
 A developer wallet is automatically created for you and is always unlocked and none of the commands will ever ask you to unlock the wallet.  If you need to run any `cleos` wallet commands or `keosd` commands via `--` and the wallet is locked, then simply run one of the wallet commands from DUNE first and it will unlock the wallet.
@@ -454,3 +454,61 @@ $ dune --start-container
 ```
 
 As mentioned above all commands that use the container will automatically create a new container if one does not exist and automatically start the container if is stopped.
+
+## Debugging Docker Container
+
+### `Access`
+Run the script to bash into docker. This will run a shell on the container.
+```console
+$ scripts/bash_into_dune.sh
+```
+If you have multiple containers running you may specify the container ID on the command line.
+```console
+$ scripts/bash_into_dune.sh d0ae1997be3c
+```
+
+### `Editing Files`
+The minimal container has no editing tools, and for that reason editing on the docker container will not work. Instead mount a shared volume between the host and the docker container. Then edit files on your host. Next you will need to access the docker container and copy your files to the right location.
+
+This shared volume is also useful for copying files from the docker container to your host for processing and analysis.
+
+The default volume is set to mount /. This isn't always practice or desirable. The shared volume is set via an environment variable. This will work in windows as well, although the instructs for setting the environment variable are slightly different from the example provided below.
+
+One the shared volume is set is stays for the life of the container.
+
+In this example below. The existing container is destroyed, the new env variable is set, container is rebuild, and the dune node re-created. Then a file is copied to the shared volume. Accessing the docker container we are able to move the file into the desired locaiton on the container.
+
+```console
+$ dune --stop-container
+$ dune --destroy-container
+$ export DUNE_VOLUME_MOUNT=/Users/me/DUNE/my_vol_mount_point
+$ dune --start my_new_node
+$ cp updatedfile.txt /Users/me/DUNE/my_vol_mount_point
+$ scripts/bash_into_dune.sh
+$ cp /hosts/updatedfile.txt /home/www-data
+```
+
+### `Diagnostics`
+
+Currently this is pretty bare bones. These diagnostics are meant to be run on the docker container. The diagnostic script executes three commands. A simple version command, a create local wallet command, and a get info from server command.
+
+```console
+$ bash_into_dune.sh
+$ /app/diagnostics.sh
+```
+
+The first 5 lines print out the context the same as if you ran.
+```console
+$ dune --list
+```
+The output should give you a good hint on what to investigate.
+
+### `Log File`
+
+nodeos logs are available on the docker container `/home/www-data/node_name.out`. You need to replace `node_name` with your node name
+
+```console
+$ scripts/bash_into_dune.sh
+$ cd /home/www-data
+$ less *.out
+```

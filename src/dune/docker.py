@@ -6,6 +6,7 @@ class docker:
    def __init__(self, container, image):
       self._container = container
       self._image     = image
+      self._volume    = os.getenv('DUNE_VOLUME_MOUNT')
 
       # check if container is running
       stdout, stderr, ec = self.execute_docker_cmd(['container', 'ls'])
@@ -22,6 +23,9 @@ class docker:
             host_dir = '/'
             if platform.system() == 'Windows':
                host_dir = 'C:/'
+            # check for user provided volume to mount
+            if self._volume is not None:
+               host_dir = self._volume
 
             stdout, stderr, ec = self.execute_docker_cmd(['run', '-p', '8888:8888', '-p', '9876:9876', '-p', '8080:8080', '-p', '3000:3000', '-p', '8000:8000', '-v', host_dir+':/host', '-d', '--name='+self._container, self._image, 'tail', '-f', '&>', '/dev/null', '&'])
 
