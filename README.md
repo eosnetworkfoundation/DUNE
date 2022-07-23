@@ -210,7 +210,7 @@ Pick your preferred terminal application and input the following command:
 **--bootstrap-system-full** This will install the boot contract to `eosio` and activate all protocol features.  It will also create all accounts needed for `mandel.contracts` and deploy the system, token and msig contract.
 
 ---
-**--send-acton** This will send an action to an account. This command takes an valid `EOSIO` account name, a valid `EOSIO` action name, the data payload needed and the permission.
+**--send-action** This will send an action to an account. This command takes an valid `EOSIO` account name, a valid `EOSIO` action name, the data payload needed and the permission.
 
 ---
 
