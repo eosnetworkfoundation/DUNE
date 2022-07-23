@@ -10,7 +10,7 @@ First we must install [Docker](https://docs.docker.com/get-docker/).
 Once you select the Docker Desktop for your operating system the installation process is very straight forward.
 
 ## `Linux`
-They have both .DEB and .RPM packages available.  If you can't get these to work for some reason most repos have packages available for the engine and auxillary components.
+They have both .DEB and .RPM packages available.  If you can't get these to work for some reason most repos have packages available for the engine and auxiliary components.
 
 When finished installing. Check the installation with the command 
 ```console
@@ -31,7 +31,7 @@ Depending on the distro you are using will determine which python3 package to in
 
 
 ### `Add DUNE To Path`
-To keep from having to install files to the users system, the perferred method of usage is to add this directory to your 'PATH'.
+To keep from having to install files to the users system, the preferred method of usage is to add this directory to your 'PATH'.
 ```console
 $ echo "PATH=<LocationOfDUNE>:$PATH" >> .bashrc
 ```
@@ -58,8 +58,8 @@ You should see the link for Python 3.10.4:
 ![win-python](docs/images/win-python.png)
 
 ### `Add DUNE To Path`
-To keep from having to install files to the users system, the perferred method of usage is to add this directory to your 'PATH'.
-Goto to Start Search and type `edit the system` and choose `Edit the system enviroment variables`
+To keep from having to install files to the users system, the preferred method of usage is to add this directory to your 'PATH'.
+Goto to Start Search and type `edit the system` and choose `Edit the system environment variables`
 
 <img src="docs/images/win-edit-sys.png" alt="win-edit-sys" width="200">
 
@@ -90,7 +90,7 @@ $ docker --help
 python3 should already be installed.
 
 ### `Add DUNE To Path`
-To keep from having to install files to the users system, the perferred method of usage is to add this directory to your 'PATH'.
+To keep from having to install files to the users system, the preferred method of usage is to add this directory to your 'PATH'.
 ```console
 $ echo "PATH=<LocationOfDUNE>:$PATH" >> .bashrc
 ```
@@ -264,7 +264,7 @@ If you have custom ports or options you need for the node, a config.ini file can
 $ dune --start test_node <path-to-config>/config.ini
 ```
 
-Now let's say that we are done with thtat node for a while, then we can stop any node we want.
+Now let's say that we are done with that node for a while, then we can stop any node we want.
 ```console
 $ dune --stop test_node
 ```
