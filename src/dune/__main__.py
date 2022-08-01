@@ -132,6 +132,9 @@ if __name__ == '__main__':
          elif args.version:
             print ("DUNE "+version_full())
 
+         else
+            print("Unsupported or wrong command")
+
       except KeyboardInterrupt:
          pass
       except dune_node_not_found as err:
