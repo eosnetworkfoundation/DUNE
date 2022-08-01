@@ -132,7 +132,7 @@ if __name__ == '__main__':
          elif args.version:
             print ("DUNE "+version_full())
 
-         else
+         else:
             print("Unsupported or wrong command")
 
       except KeyboardInterrupt:
